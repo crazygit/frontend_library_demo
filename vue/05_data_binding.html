@@ -1,0 +1,26 @@
+<span id="harry" style="line-height: 32px">&nbsp;</span><br />
+<input id="trigger" type="text" />
+<script>
+  // Vue中数据双向绑定的实现原理
+  let harry = document.getElementById("harry");
+  let trigger = document.getElementById("trigger");
+  let key = "profile";
+  let store = {};
+  let obj = {
+    profile: "",
+  };
+  Object.defineProperty(obj, key, {
+    get: function () {
+      return store[key];
+    },
+    set: function (value) {
+      store[key] = value;
+      // 修改harry中显示值
+      harry.innerHTML = value;
+    },
+  });
+  trigger.addEventListener("keyup", function () {
+    obj[key] = this.value;
+    console.log(obj[key]);
+  });
+</script>

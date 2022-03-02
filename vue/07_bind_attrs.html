@@ -1,0 +1,20 @@
+<style>
+    .italic {
+        font-style: italic;
+    }
+</style>
+<div id="app" style="margin-left: 300px;">
+    <p v-bind:class="className" v-bind:title="title">危险误触</p>
+    <button v-bind:disabled="10 + 10 === 20">点击有奖</button>
+    <input v-bind:type="'text'" v-bind:placeholder="true ? '请输入' : '请录入'">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                className: 'italic',
+                title: '危险误触',
+            },
+        });
+    </script>
+</div>

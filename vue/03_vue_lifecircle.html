@@ -1,0 +1,49 @@
+<div id="app">
+  <h1>{{ title }}</h1>
+  <button @click="randomTitle()">改变标题</button>
+  <button @click="destoryVM()">销毁实例</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<!--这里用的是Vue2的写法-->
+<script type="text/javascript">
+  var vm = new Vue({
+    el: "#app",
+    data: {
+      title: "Hello Vue!",
+    },
+    methods: {
+      randomTitle() {
+        this.title =
+          "Hello " +
+          ["China", "World", "Universe"][Math.floor(Math.random() * 2.999)];
+      },
+      destoryVM() {
+        this.$destroy();
+      },
+    },
+    beforeCreate() {
+      console.log("beforeCreate");
+    },
+    created() {
+      console.log("created");
+    },
+    beforeMount() {
+      console.log("beforeMount");
+    },
+    mounted() {
+      console.log("mounted");
+    },
+    beforeUpdate() {
+      console.log("beforeUpdate");
+    },
+    updated() {
+      console.log("updated");
+    },
+    beforeDestroy() {
+      console.log("beforeDestroy");
+    },
+    destroyed() {
+      console.log("destroyed");
+    },
+  });
+</script>

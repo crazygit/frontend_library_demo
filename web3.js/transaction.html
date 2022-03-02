@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Ethereum Demo</title>
+</head>
+
+<body>
+    <button class="enableEthereumButton">Enable Ethereum</button>
+    <h2>Src Account: <span class="showSrcAccount"></span></h2>
+    <h2>Dest Account: <span class="showDestAccount"></span></h2>
+    <button class="sendTrasactionWithValueOnly">Send Trasaction With Value Only</button>
+    <button class="sendTrasactionWithValueAndData">Send Trasaction With Value And Data</button>
+    <button class="sendTrasactionNoValueAndData">Send Trasaction No Value And Data</button>
+    <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+    <script>
+        if (typeof window.ethereum !== "undefined" && ethereum.isMetaMask) {
+            console.log("MetaMask is installed!");
+        } else {
+            console.log("MetaMask is not installed!");
+        }
+        const ethereumButton = document.querySelector(".enableEthereumButton");
+        const showSrcAccount = document.querySelector('.showSrcAccount');
+        const showDestAccount = document.querySelector('.showDestAccount');
+        const sendTrasactionWithValueOnlyButton = document.querySelector('.sendTrasactionWithValueOnly');
+        const sendTrasactionWithValueAndDataButton = document.querySelector('.sendTrasactionWithValueAndData');
+        const sendTrasactionNoValueAndDataButton = document.querySelector('.sendTrasactionNoValueAndData');
+        let srcAccount;
+        let destAccount = "0x52116D91A6C489ae06885B6BD9f7748AebeC794c";
+
+        ethereumButton.addEventListener('click', () => {
+            getAccount();
+        });
+        sendTrasactionWithValueOnlyButton.addEventListener('click', () => {
+            sendTrasactionWithValueOnly();
+        });
+        sendTrasactionWithValueAndDataButton.addEventListener('click', () => {
+            sendTrasactionWithValueAndData();
+        });
+        sendTrasactionNoValueAndDataButton.addEventListener('click', () => {
+            sendTrasactionNoValueAndData();
+        });
+
+
+
+        async function getAccount() {
+            // 连接metamask的步骤保持不变
+            // 请求metamask连接
+            await ethereum.request({ method: 'eth_requestAccounts' });
+            // 使用ethereum作为provider，初始化web3.js
+            window.web3 = new Web3(window.ethereum);
+            // 这里使用web3的方法获取账户信息
+            var accounts = await web3.eth.getAccounts();
+            srcAccount = accounts[0];
+            showSrcAccount.innerHTML = srcAccount;
+            showDestAccount.innerHTML = destAccount;
+        }
+        async function sendTrasactionWithValueOnly() {
+            web3.eth.sendTransaction({ from: srcAccount, to: destAccount, value: web3.utils.toWei('1', 'ether'), data: "" });
+        }
+        async function sendTrasactionWithValueAndData() {
+            // data必须为16进制的数字
+            // 如果转账地址to是合约地址，那么data里就是包含对合约的调用函数和参数等信息
+            // 如果转账地址to是外部账户，那么data里的内容目前没有规范，可以自由定制
+            // 该转账是不会成功的，因为测试网络上还么有合约信息
+            web3.eth.sendTransaction({ from: srcAccount, to: destAccount, value: web3.utils.toWei('1', 'ether'), data: "0x1234" });
+        }
+        async function sendTrasactionNoValueAndData() {
+            web3.eth.sendTransaction({ from: srcAccount, to: destAccount, value: 0, data: "" });
+        }
+    </script>
+</body>
+
+</html>

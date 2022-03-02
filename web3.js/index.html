@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web3.jd demo</title>
+  </head>
+  <body>
+    <h1>Open Developer Console to see what happend</h1>
+    <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+    <script>
+      const accountAddress = "0xeD9e5137442c8Be029921E81d180A583579abDaa";
+
+      // 首先检查浏览器是否包含有provider,没有的话，连接infura作为provider
+      // 下面给的是一个主网络的infura链接，如果要连接测试网络，可以设置测试网络的链接
+      const web3 = new Web3(
+        Web3.givenProvider ||
+          "wss://mainnet.infura.io/ws/v3/28d5693e8bee4b58a61f0c627d62331e"
+      );
+
+      // 使用callback输出结果
+      web3.eth.getBalance(accountAddress, function (err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(web3.utils.fromWei(result, "ether") + " ETH");
+        }
+      });
+    </script>
+  </body>
+</html>

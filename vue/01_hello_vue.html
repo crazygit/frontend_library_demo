@@ -1,0 +1,17 @@
+<div id="hello-vue">
+  <h1>{{ message }}</h1>
+
+</div>
+<script src="https://unpkg.com/vue@next"></script>
+<!--这里用的是Vue3的写法-->
+<script type="text/javascript">
+  const HelloVueApp = {
+    data() {
+      return {
+        message: "Hello Vue!!",
+      };
+    },
+  };
+
+  Vue.createApp(HelloVueApp).mount("#hello-vue");
+</script>
