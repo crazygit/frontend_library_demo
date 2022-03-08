@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Add Token to wallet</title>
+</head>
+
+<body>
+    <button class="enableEthereumButton">Enable Ethereum</button>
+    <button class="addTokenButton">Add Token</button>
+    <h2>Account: <span class="currentAccount"></span></h2>
+
+    <script>
+        const enableEthereumButton = document.querySelector(".enableEthereumButton");
+        const addTokenButton = document.querySelector(".addTokenButton");
+        const currentAccountSpan = document.querySelector('.currentAccount');
+
+        const tokenAddress = '0xd00981105e61274c8a5cd5a88fe7e037d935b513';
+        const tokenSymbol = 'TUT';
+        const tokenDecimals = 18;
+        const tokenImage = 'http://placekitten.com/200/300';
+        enableEthereumButton.addEventListener('click', () => {
+            connectAccount();
+        });
+
+        addTokenButton.addEventListener('click', () => {
+            addToken();
+        });
+
+        // 多次添加会覆盖已经的Token信息
+        async function addToken() {
+            try {
+                // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+                const wasAdded = await ethereum.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20', // Initially only supports ERC20, but eventually more!
+                        options: {
+                            address: tokenAddress, // The address that the token is at.
+                            symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+                            decimals: tokenDecimals, // The number of decimals in the token
+                            image: tokenImage, // A string url of the token logo
+                        },
+                    },
+                });
+
+                if (wasAdded) {
+                    console.log('Thanks for your interest!');
+                } else {
+                    console.log('Your loss!');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        if (typeof window.ethereum !== "undefined" && window.ethereum.isMetaMask) {
+            console.log("MetaMask is installed!");
+            getCurrentAccount().then((account) => {
+                console.log("current conneced account is: " + account);
+                if (account) {
+                    currentAccountSpan.innerHTML = account;
+                }
+                else {
+                    currentAccountSpan.innerHTML = "no account connected now, click Enable Ethereum button to connect";
+                }
+            });
+        } else {
+            console.log("Please install MetaMask first!");
+        }
+        async function getCurrentAccount() {
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+            return accounts[0];
+        }
+
+        async function connectAccount() {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+            currentAccountSpan.innerHTML = account;
+        }
+
+    </script>
+</body>
+
+</html>

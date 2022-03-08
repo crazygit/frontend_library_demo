@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>浮动效果演示</title>
+    <style type="text/css">
+        /*定义父元素样式*/
+        #father {
+            width: 300px;
+            background-color: #0C6A9D;
+            border: 2px solid rgb(231, 43, 43);
+        }
+
+        /*定义子元素样式*/
+        #father div {
+            padding: 10px;
+            margin: 15px;
+
+        }
+
+        /* 由于box1设置为左浮动，box1变成了浮动元素，因此此时box1的宽度不再延伸，而是由内容宽度决定其宽度。接着相邻的下一个div元素（box2）就会紧贴着box1，这是由于浮动引起的效果。 */
+        #son1 {
+            background-color: hotpink;
+            float: left;
+            border: 2px solid rgb(48, 25, 177);
+            /*这里设置son1的浮动方式*/
+        }
+
+        #son2 {
+            background-color: #FCD568;
+            border: 4px solid rgb(63, 233, 154);
+            /*这里设置son2的浮动方式*/
+            float:left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="father">
+        <div id="son1">box1</div>
+        <div id="son2">box2</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect Metamask demo</title>
+</head>
+
+<body>
+    <button class="enableEthereumButton">Enable Ethereum</button>
+    <h2>Account: <span class="currentAccount"></span></h2>
+    <h2>Network: <span class="currentNetwork"></span></h2>
+    <script>
+        const enableEthereumButton = document.querySelector(".enableEthereumButton");
+        const currentAccountSpan = document.querySelector('.currentAccount');
+        const currentNetworkSpan = document.querySelector('.currentNetwork');
+
+        if (typeof window.ethereum !== "undefined" && window.ethereum.isMetaMask) {
+            console.log("MetaMask is installed!");
+            getCurrentAccount().then((account) => {
+                console.log("current conneced account is: " + account);
+                if (account) {
+                    currentAccountSpan.innerHTML = account;
+                }
+                else {
+                    currentAccountSpan.innerHTML = "no account connected now, click Enable Ethereum button to connect";
+                }
+            });
+            getNetworkVersion().then((network) => {
+                console.log("current network is: " + network);
+                currentNetworkSpan.innerHTML = network;
+            });
+        } else {
+            console.log("Please install MetaMask first!");
+        }
+
+        enableEthereumButton.addEventListener('click', () => {
+            connectAccount();
+        });
+
+        async function getCurrentAccount() {
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+            return accounts[0];
+        }
+
+        async function getNetworkVersion() {
+            const network = await ethereum.request({ method: 'net_version' });
+            return network;
+        }
+
+        async function connectAccount() {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+            currentAccountSpan.innerHTML = account;
+        }
+
+        ethereum.on('connect', (connectInfo) => {
+            console.log("MetaMask is connected");
+        });
+
+        ethereum.on('disconnect', (connectInfo) => {
+            console.log("MetaMask is disconnected");
+        });
+
+        ethereum.on('chainChanged', (network) => {
+            console.log("chainChanged to: " + network);
+            currentNetworkSpan.innerHTML = network;
+        });
+
+        ethereum.on('accountsChanged', (accounts) => {
+            // Handle the new accounts, or lack thereof.
+            // "accounts" will always be an array, but it can be empty.
+            //  测试发现即使即使同时有多个账号连接的情况下，也只能获取到一个账号的信息
+            console.log("accountsChanged: ", accounts);
+            currentAccountSpan.innerHTML = accounts[0];
+        });
+    </script>
+</body>
+
+</html>

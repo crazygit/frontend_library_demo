@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>清除浮动效果</title>
+    <style type="text/css">
+        /*定义父元素样式*/
+        #father {
+            width: 300px;
+            background-color: #0C6A9D;
+            border: 2px solid rgb(175, 20, 20);
+        }
+
+        /*定义子元素样式*/
+        #father div {
+            padding: 10px;
+            margin: 15px;
+        }
+
+        #son1 {
+            background-color: hotpink;
+            float: left;
+            /*左浮动*/
+        }
+
+        #son2 {
+            background-color: #FCD568;
+            float: right;
+            /*右浮动*/
+        }
+
+        .clear {
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="father">
+        <div id="son1">box1</div>
+        <div id="son2">box2</div>
+
+        <!-- 我们一般都是在浮动元素后面再增加一个空元素，然后为这个空元素定义clear:both来清除浮动。说白了，前面小弟干了太多坏事，后面得大哥出面才能解决。在实际开发中，凡是用了浮动之后发现有什么不对劲的地方，首先应该检查的是有没有清除浮动。 -->
+        <div class="clear"></div>
+        <h1>New line</h1>
+    </div>
+</body>
+
+</html>

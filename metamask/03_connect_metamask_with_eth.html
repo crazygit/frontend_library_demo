@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect Metamask with web3.js demo</title>
+</head>
+
+<body>
+    <button class="enableEthereumButton">Enable Ethereum</button>
+    <h2>Account: <span class="currentAccount"></span></h2>
+    <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+    <script>
+        const enableEthereumButton = document.querySelector(".enableEthereumButton");
+        const currentAccountSpan = document.querySelector('.currentAccount');
+
+        if (typeof window.ethereum !== "undefined" && ethereum.isMetaMask) {
+            console.log("MetaMask is installed!");
+        } else {
+            console.log("MetaMask is not installed!");
+        }
+        enableEthereumButton.addEventListener('click', () => {
+            connectAccount();
+        });
+
+        async function connectAccount() {
+            window.web3 = new Web3(window.ethereum);
+            const accounts = await web3.eth.requestAccounts();
+            currentAccountSpan.innerHTML = accounts[0];
+        }
+    </script>
+</body>
+
+</html>

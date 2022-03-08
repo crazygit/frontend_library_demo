@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Is Metamask install demo</title>
+</head>
+
+<body>
+    <h2>Metamask Install Status: <span class="isMetaMaskInstall"></span></h2>
+    <script>
+        const isMetaMaskInstallSpan = document.querySelector(".isMetaMaskInstall");
+        if (typeof window.ethereum !== "undefined" && ethereum.isMetaMask) {
+            console.log("MetaMask is installed!");
+            isMetaMaskInstallSpan.innerHTML = "MetaMask is installed!";
+        }
+        else {
+            console.log("Please install metamask first");
+            isMetaMaskInstallSpan.innerHTML = "Please install metamask first";
+        }
+    </script>
+</body>
+
+</html>
