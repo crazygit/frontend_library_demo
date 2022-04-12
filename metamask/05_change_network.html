@@ -21,7 +21,7 @@
         const currentNetworkSpan = document.querySelector('.currentNetwork');
         const switchNetworkButton = document.querySelector('.switchNetworkButton');
         const addNetworkButton = document.querySelector('.addNetworkButton');
-        const destNetworkId = ethers.BigNumber.from("97").toHexString();  // 切换到BSC Test网络
+        const destNetworkId = ethers.utils.hexValue(ethers.BigNumber.from("97"));  // 切换到BSC Test网络
 
         enableEthereumButton.addEventListener('click', () => {
             connectAccount();
@@ -46,7 +46,7 @@
             });
             getNetworkVersion().then((network) => {
                 console.log("current network is: " + network);
-                currentNetworkSpan.innerHTML = ethers.BigNumber.from(network).toHexString();
+                currentNetworkSpan.innerHTML = ethers.utils.hexValue(ethers.BigNumber.from(network));
             });
         } else {
             console.log("Please install MetaMask first!");
@@ -56,7 +56,7 @@
             try {
                 console.log("switch to BSC chain")
                 currentNetwok = await getNetworkVersion();
-                if (ethers.BigNumber.from(currentNetwok).toHexString() == destNetworkId) {
+                if (ethers.utils.hexValue(ethers.BigNumber.from(currentNetwok)) == destNetworkId) {
                     console.log("Already in BSC network")
                 } else {
                     await ethereum.request({
@@ -124,13 +124,13 @@
             console.log("MetaMask is connected");
         });
 
-        ethereum.on('disconnect', (connectInfo) => {
+        ethereum.on('disconnect', (error) => {
             console.log("MetaMask is disconnected");
         });
 
         ethereum.on('chainChanged', (network) => {
             console.log("chainChanged to: " + network);
-            currentNetworkSpan.innerHTML = currentNetworkSpan.innerHTML = ethers.BigNumber.from(network).toHexString();
+            currentNetworkSpan.innerHTML = ethers.utils.hexValue(ethers.BigNumber.from(network));
         });
 
         ethereum.on('accountsChanged', (accounts) => {

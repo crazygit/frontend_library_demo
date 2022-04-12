@@ -60,7 +60,7 @@
             console.log("MetaMask is connected");
         });
 
-        ethereum.on('disconnect', (connectInfo) => {
+        ethereum.on('disconnect', (error) => {
             console.log("MetaMask is disconnected");
         });
 
